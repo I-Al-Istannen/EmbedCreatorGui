@@ -4,7 +4,6 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
@@ -14,7 +13,6 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 import me.ialistannen.embedcreator.Main;
 import me.ialistannen.embedcreator.util.ImageUtil;
-import me.ialistannen.embedcreator.util.LabeledUtil;
 import me.ialistannen.embedcreator.view.EditableTextFlow;
 import me.ialistannen.embedcreator.view.FieldContainer;
 import me.ialistannen.embedcreator.view.UrlImageView;
@@ -50,7 +48,7 @@ public class MainScreenController {
   private UrlImageView footerImage;
 
   @FXML
-  private Label footerText;
+  private EditableTextFlow footerText;
 
   @FXML
   private VBox test;
@@ -66,8 +64,6 @@ public class MainScreenController {
     ImageUtil.makeEditable(image);
     ImageUtil.makeEditable(footerImage);
 
-    LabeledUtil.makeEditable(footerText);
-
     descriptionText.getChildren().clear();
     addText("Welcome", false);
     addText(" {player} ", true);
@@ -76,7 +72,7 @@ public class MainScreenController {
 
   private void addText(String text, boolean variable) {
     Text textNode = new Text(text);
-    if(variable) {
+    if (variable) {
       textNode.getStyleClass().add("variable");
     }
     descriptionText.getChildren().add(textNode);

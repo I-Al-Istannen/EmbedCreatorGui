@@ -3,7 +3,6 @@
 <?import java.lang.String?>
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
@@ -157,14 +156,16 @@
                 </UrlImageView>
               </children>
             </AnchorPane>
-            <Label fx:id="footerText" maxHeight="1.7976931348623157E308"
-              maxWidth="1.7976931348623157E308" minHeight="10.0" minWidth="10.0"
-              text="Sample footer text, lorem ipsum dolor sit amet" wrapText="true">
+            <EditableTextFlow fx:id="footerText" maxHeight="1.7976931348623157E308"
+              maxWidth="1.7976931348623157E308" minHeight="10.0" minWidth="10.0">
+              <children>
+                <Text text="Sample footer text, lorem ipsum dolor sit amet"/>
+              </children>
               <styleClass>
                 <String fx:value="footer-text"/>
                 <String fx:value="text-container"/>
               </styleClass>
-            </Label>
+            </EditableTextFlow>
           </children>
           <GridPane.margin>
             <Insets left="5.0" top="10.0"/>
