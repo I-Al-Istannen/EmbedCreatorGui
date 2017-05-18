@@ -22,9 +22,6 @@
 }
 
 .field-container {
-  -fx-border-width: 2px;
-  -fx-border-color: royalblue;
-  -fx-border-style: solid;
 }
 
 .image {
@@ -34,8 +31,4 @@
 }
 
 .footer-text {
-}
-
-.variable {
-  -fx-fill: tomato;
 }

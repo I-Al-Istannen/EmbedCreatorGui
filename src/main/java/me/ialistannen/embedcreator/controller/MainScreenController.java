@@ -59,7 +59,7 @@ public class MainScreenController {
   private void initialize() {
     setClips();
 
-//    initFields();
+    initFields();
 
     ImageUtil.makeEditable(authorAvatarImage);
     ImageUtil.makeEditable(thumbnailImage);

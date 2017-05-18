@@ -11,3 +11,7 @@
 .text-container:hover, .image-container:hover {
   -fx-effect: dropshadow(gaussian, royalblue, 10, 0.5, 0, 0);
 }
+
+.variable {
+  -fx-fill: tomato;
+}

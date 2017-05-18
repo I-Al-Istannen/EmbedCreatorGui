@@ -4,9 +4,8 @@ import java.io.IOException;
 import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
-import me.ialistannen.embedcreator.util.LabeledUtil;
+import javafx.scene.text.Text;
 
 /**
  * An embed field
@@ -17,10 +16,10 @@ public class EmbedField extends GridPane {
   private GridPane root;
 
   @FXML
-  private Label name;
+  private EditableTextFlow name;
 
   @FXML
-  private Label value;
+  private EditableTextFlow value;
 
   private boolean inline;
   private FieldContainer owner;
@@ -56,8 +55,8 @@ public class EmbedField extends GridPane {
 
   @FXML
   private void initialize() {
-    LabeledUtil.makeEditable(name);
-    LabeledUtil.makeEditable(value);
+//    LabeledUtil.makeEditable(name);
+//    LabeledUtil.makeEditable(value);
   }
 
   /**
@@ -91,13 +90,15 @@ public class EmbedField extends GridPane {
    * @param name The new name
    */
   private void setName(String name) {
-    this.name.setText(name);
+    this.name.getChildren().clear();
+    this.name.getChildren().add(new Text(name));
   }
 
   /**
    * @param value The value
    */
   private void setValue(String value) {
-    this.value.setText(value);
+    this.value.getChildren().clear();
+    this.value.getChildren().add(new Text(value));
   }
 }

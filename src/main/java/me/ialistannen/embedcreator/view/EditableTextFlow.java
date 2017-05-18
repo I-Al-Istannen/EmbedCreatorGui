@@ -1,6 +1,7 @@
 package me.ialistannen.embedcreator.view;
 
 import java.util.stream.Collectors;
+import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.control.Labeled;
 import javafx.scene.control.TextArea;
@@ -82,8 +83,7 @@ public class EditableTextFlow extends TextFlow {
 
   private void endEditing(boolean keepNewText) {
     if (keepNewText) {
-      getChildren().clear();
-      getChildren().add(new Text(editingArea.getText()));
+      setText(editingArea.getText());
     }
 
     // may be called multiple times
@@ -100,7 +100,7 @@ public class EditableTextFlow extends TextFlow {
     return getChildren().stream()
         .map(this::getText)
         .filter(string -> !string.isEmpty())
-        .collect(Collectors.joining(" "));
+        .collect(Collectors.joining(""));
   }
 
   /**
@@ -118,4 +118,60 @@ public class EditableTextFlow extends TextFlow {
     return "";
   }
 
+  /**
+   * Sets the text of this {@link TextFlow}.
+   *
+   * @param text The new text
+   */
+  private void setText(String text) {
+    getChildren().clear();
+    if (text.isEmpty()) {
+      return;
+    }
+
+    int lastNormalChar = -1;
+    for (int i = 0; i < text.length(); i++) {
+      int codePoint = text.codePointAt(i);
+      if (codePoint == '{') {
+
+        if (lastNormalChar >= 0) {
+          addText(text.substring(lastNormalChar, i), false);
+          lastNormalChar = -1;
+        }
+
+        int endIndex = text.indexOf('}', i);
+
+        if (endIndex < 0) {
+          lastNormalChar = i;
+          break;
+        }
+
+        addText(text.substring(i, endIndex + 1), true);
+        i = endIndex;
+        continue;
+      }
+
+      if (lastNormalChar < 0) {
+        lastNormalChar = i;
+      }
+    }
+
+    if (lastNormalChar > 0) {
+      addText(text.substring(lastNormalChar, text.length()), false);
+    }
+  }
+
+  /**
+   * Adds text to this {@link TextFlow}.
+   *
+   * @param text The text to add
+   * @param variable True if it is a variable
+   */
+  private void addText(String text, boolean variable) {
+    Text textNode = new Text(text);
+    if (variable) {
+      Platform.runLater(() -> textNode.getStyleClass().add("variable"));
+    }
+    getChildren().add(textNode);
+  }
 }

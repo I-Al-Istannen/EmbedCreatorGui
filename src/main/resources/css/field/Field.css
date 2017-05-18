@@ -6,14 +6,10 @@
 }
 
 .root{
-  -fx-background-color: royalblue;
+  /*-fx-background-color: royalblue;*/
 }
 
 /*noinspection CssInvalidPseudoSelector*/
 .root:inline {
-  -fx-background-color: tomato;
+  /*-fx-background-color: tomato;*/
 }
-
-/* The root pane, an inline field. */
-/*.root:inline {*/
-/*}*/
