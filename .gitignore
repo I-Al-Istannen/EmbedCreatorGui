@@ -1,0 +1,11 @@
+# IDEA meta data
+.idea/
+
+# IDEA project files
+*.iml
+
+# Shade plugin
+dependency-reduced-pom.xml
+
+# Log files
+*.log
