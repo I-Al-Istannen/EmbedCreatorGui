@@ -13,9 +13,8 @@
 .author-name {
 }
 
-.title {
-  -fx-border-width: 0;
-  -fx-text-fill: dodgerblue;
+.title > Text {
+  -fx-fill: dodgerblue;
 }
 
 .description-text {
@@ -31,4 +30,8 @@
 }
 
 .footer-text {
+}
+
+.variable {
+  -fx-fill: tomato;
 }

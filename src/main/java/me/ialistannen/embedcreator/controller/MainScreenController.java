@@ -32,7 +32,7 @@ public class MainScreenController {
   private UrlImageView authorAvatarImage;
 
   @FXML
-  private Label authorName;
+  private UrlLabel authorName;
 
   @FXML
   private UrlLabel title;
@@ -66,9 +66,7 @@ public class MainScreenController {
     ImageUtil.makeEditable(image);
     ImageUtil.makeEditable(footerImage);
 
-    LabeledUtil.makeEditable(authorName);
     LabeledUtil.makeEditable(footerText);
-    LabeledUtil.makeEditable(title);
 
     descriptionText.getChildren().clear();
     addText("Welcome", false);

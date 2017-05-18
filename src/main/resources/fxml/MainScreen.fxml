@@ -66,9 +66,11 @@
                 </UrlImageView>
               </children>
             </AnchorPane>
-            <UrlLabel fx:id="authorName" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308"
-              maxWidth="1.7976931348623157E308" minHeight="10.0" minWidth="10.0"
-              text="Sample author name, lorem ipsum dolor sit amet" wrapText="true">
+            <UrlLabel fx:id="authorName" maxHeight="1.7976931348623157E308"
+              maxWidth="1.7976931348623157E308" minHeight="10.0" minWidth="10.0">
+              <children>
+                <Text text="Sample author name, lorem ipsum dolor sit amet"/>
+              </children>
               <styleClass>
                 <String fx:value="author-name"/>
                 <String fx:value="emphasized"/>
@@ -85,7 +87,10 @@
           GridPane.columnSpan="2147483647" GridPane.rowIndex="1">
           <children>
             <UrlLabel fx:id="title" maxHeight="1.7976931348623157E308"
-              maxWidth="1.7976931348623157E308" minHeight="10.0" minWidth="10.0" text="Title">
+              maxWidth="1.7976931348623157E308" minHeight="10.0" minWidth="10.0">
+              <children>
+                <Text text="Title"/>
+              </children>
               <styleClass>
                 <String fx:value="title"/>
                 <String fx:value="text-container"/>

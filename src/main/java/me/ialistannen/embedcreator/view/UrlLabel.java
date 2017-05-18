@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Optional;
+import javafx.geometry.Bounds;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
@@ -12,7 +13,7 @@ import javafx.scene.control.MenuItem;
 /**
  * A {@link Label} storing information about the URL it was assigned.
  */
-public class UrlLabel extends Label {
+public class UrlLabel extends EditableTextFlow {
 
   private String url;
 
@@ -50,7 +51,16 @@ public class UrlLabel extends Label {
       contextMenu.getItems().add(gotoUrl);
     }
 
-    setContextMenu(contextMenu);
+    setOnContextMenuRequested(event -> {
+      Bounds screenBounds = getScreenBounds();
+      int x = (int) (screenBounds.getMaxX() - screenBounds.getMinX() + screenBounds.getMinX());
+      int y = (int) screenBounds.getMinY();
+      contextMenu.show(this, x, y);
+    });
+  }
+
+  private Bounds getScreenBounds() {
+    return localToScreen(getBoundsInLocal());
   }
 
   /**

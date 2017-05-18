@@ -52,9 +52,9 @@ public class EditableTextFlow extends TextFlow {
     editingArea = new TextArea(getText());
 
     editingArea.setWrapText(true);
-    editingArea.setMinSize(10, 10);
+    editingArea.setMinSize(30, 10);
     editingArea.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-    editingArea.setPrefSize(getWidth(), getHeight() + 30);
+    editingArea.setPrefSize(getWidth() + 20, getHeight() + 30);
 
     editingArea.focusedProperty().addListener((observable, oldValue, newValue) -> {
       if (!newValue) {
