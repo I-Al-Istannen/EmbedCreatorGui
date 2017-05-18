@@ -1,0 +1,41 @@
+.inner-pane {
+}
+
+.background-pane {
+}
+
+.thumbnail-image {
+}
+
+.author-avatar-image {
+}
+
+.author-name {
+}
+
+.title {
+  -fx-border-width: 0;
+  -fx-text-fill: dodgerblue;
+}
+
+.description-text {
+}
+
+.field-container {
+  -fx-border-width: 2px;
+  -fx-border-color: royalblue;
+  -fx-border-style: solid;
+}
+
+.image {
+}
+
+.footer-image {
+}
+
+.footer-text {
+}
+
+.variable {
+  -fx-fill: tomato;
+}

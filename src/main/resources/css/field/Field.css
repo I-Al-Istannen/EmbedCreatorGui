@@ -1,0 +1,19 @@
+.name {
+}
+
+.value {
+  -fx-text-fill: gray;
+}
+
+.root{
+  -fx-background-color: royalblue;
+}
+
+/*noinspection CssInvalidPseudoSelector*/
+.root:inline {
+  -fx-background-color: tomato;
+}
+
+/* The root pane, an inline field. */
+/*.root:inline {*/
+/*}*/

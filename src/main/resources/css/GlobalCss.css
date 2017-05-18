@@ -1,0 +1,13 @@
+.text-container, .text-container > Text {
+  -fx-text-fill: gray;
+  -fx-fill: gray;
+}
+
+.emphasized, .emphasized > Text {
+  -fx-text-fill: black;
+  -fx-fill: black;
+}
+
+.text-container:hover, .image-container:hover {
+  -fx-effect: dropshadow(gaussian, royalblue, 10, 0.5, 0, 0);
+}

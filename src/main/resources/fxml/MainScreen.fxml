@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+<?import me.ialistannen.embedcreator.view.EditableTextFlow?>
+<?import me.ialistannen.embedcreator.view.FieldContainer?>
+<?import me.ialistannen.embedcreator.view.UrlImageView?>
+<?import me.ialistannen.embedcreator.view.UrlLabel?>
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0"
+  minWidth="0.0" prefWidth="600.0" styleClass="background-pane"
+  xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1"
+  fx:controller="me.ialistannen.embedcreator.controller.MainScreenController">
+  <center>
+    <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0"
+      minWidth="0.0" styleClass="inner-pane" BorderPane.alignment="CENTER">
+      <columnConstraints>
+        <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="1.7976931348623157E308"
+          minWidth="10.0"/>
+        <ColumnConstraints hgrow="NEVER" maxWidth="1.7976931348623157E308" minWidth="80.0"/>
+      </columnConstraints>
+      <rowConstraints>
+        <RowConstraints maxHeight="1.7976931348623157E308" minHeight="67.0" vgrow="NEVER"/>
+        <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" vgrow="SOMETIMES"/>
+        <RowConstraints maxHeight="1.7976931348623157E308" minHeight="0.0" vgrow="ALWAYS"/>
+        <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" vgrow="SOMETIMES"/>
+        <RowConstraints maxHeight="37.0" minHeight="30.0" vgrow="NEVER"/>
+      </rowConstraints>
+      <children>
+        <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+          minHeight="10.0" minWidth="10.0" styleClass="image-container" GridPane.columnIndex="1"
+          GridPane.halignment="RIGHT" GridPane.valignment="TOP">
+          <children>
+            <UrlImageView fx:id="thumbnailImage" fitHeight="80.0" fitWidth="80.0"
+              pickOnBounds="true" preserveRatio="true" styleClass="thumbnail-image"
+              AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+              AnchorPane.topAnchor="0.0">
+              <image>
+                <Image url="@../images/placeholder.png"/>
+              </image>
+            </UrlImageView>
+          </children>
+        </AnchorPane>
+        <HBox fillHeight="false" maxHeight="1.7976931348623157E308"
+          maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" spacing="10.0"
+          GridPane.halignment="LEFT" GridPane.valignment="CENTER">
+          <children>
+            <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+              minHeight="10.0" minWidth="10.0" styleClass="image-container">
+              <children>
+                <UrlImageView fx:id="authorAvatarImage" fitHeight="20.0" fitWidth="20.0"
+                  pickOnBounds="true" preserveRatio="true" styleClass="author-avatar-image">
+                  <image>
+                    <Image url="@../images/placeholder.png"/>
+                  </image>
+                </UrlImageView>
+              </children>
+            </AnchorPane>
+            <UrlLabel fx:id="authorName" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308"
+              maxWidth="1.7976931348623157E308" minHeight="10.0" minWidth="10.0"
+              text="Sample author name, lorem ipsum dolor sit amet" wrapText="true">
+              <styleClass>
+                <String fx:value="author-name"/>
+                <String fx:value="emphasized"/>
+                <String fx:value="text-container"/>
+              </styleClass>
+            </UrlLabel>
+          </children>
+          <GridPane.margin>
+            <Insets left="5.0" top="20.0"/>
+          </GridPane.margin>
+        </HBox>
+        <VBox fx:id="test" fillWidth="false" maxHeight="1.7976931348623157E308"
+          maxWidth="1.7976931348623157E308" minHeight="10.0" minWidth="10.0" spacing="10.0"
+          GridPane.columnSpan="2147483647" GridPane.rowIndex="1">
+          <children>
+            <UrlLabel fx:id="title" maxHeight="1.7976931348623157E308"
+              maxWidth="1.7976931348623157E308" minHeight="10.0" minWidth="10.0" text="Title">
+              <styleClass>
+                <String fx:value="title"/>
+                <String fx:value="text-container"/>
+              </styleClass>
+              <VBox.margin>
+                <Insets left="5.0"/>
+              </VBox.margin>
+            </UrlLabel>
+            <EditableTextFlow fx:id="descriptionText" maxHeight="1.7976931348623157E308"
+              maxWidth="1.7976931348623157E308" minHeight="10.0" minWidth="10.0">
+              <children>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0"
+                  text="Just some example description. This is totally not correct. This is a TextFlow, so I can maybe style it later on"/>
+              </children>
+              <styleClass>
+                <String fx:value="description-text"/>
+                <String fx:value="text-container"/>
+              </styleClass>
+              <VBox.margin>
+                <Insets left="5.0"/>
+              </VBox.margin>
+            </EditableTextFlow>
+          </children>
+          <GridPane.margin>
+            <Insets bottom="10.0" top="-20.0"/>
+          </GridPane.margin>
+        </VBox>
+        <FieldContainer fx:id="fieldContainer" maxHeight="1.7976931348623157E308"
+          maxWidth="1.7976931348623157E308" minHeight="10.0" minWidth="10.0"
+          styleClass="field-container" GridPane.rowIndex="2">
+          <GridPane.margin>
+            <Insets bottom="10.0" top="10.0"/>
+          </GridPane.margin>
+        </FieldContainer>
+        <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+          minHeight="10.0" minWidth="10.0" styleClass="image-container" GridPane.rowIndex="3">
+          <GridPane.margin>
+            <Insets left="5.0"/>
+          </GridPane.margin>
+          <children>
+            <UrlImageView fx:id="image" fitHeight="240.0" fitWidth="240.0" pickOnBounds="true"
+              preserveRatio="true" styleClass="image" AnchorPane.bottomAnchor="0.0"
+              AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+              <image>
+                <Image url="@../images/placeholder.png"/>
+              </image>
+            </UrlImageView>
+          </children>
+        </AnchorPane>
+        <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308"
+          maxWidth="1.7976931348623157E308" minHeight="10.0" minWidth="10.0" spacing="10.0"
+          GridPane.rowIndex="4">
+          <children>
+            <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+              minHeight="10.0" minWidth="10.0" styleClass="image-container">
+              <children>
+                <UrlImageView fx:id="footerImage" fitHeight="20.0" fitWidth="20.0"
+                  pickOnBounds="true" preserveRatio="true" styleClass="footer-image"
+                  AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                  AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <image>
+                    <Image url="@../images/placeholder.png"/>
+                  </image>
+                </UrlImageView>
+              </children>
+            </AnchorPane>
+            <Label fx:id="footerText" maxHeight="1.7976931348623157E308"
+              maxWidth="1.7976931348623157E308" minHeight="10.0" minWidth="10.0"
+              text="Sample footer text, lorem ipsum dolor sit amet" wrapText="true">
+              <styleClass>
+                <String fx:value="footer-text"/>
+                <String fx:value="text-container"/>
+              </styleClass>
+            </Label>
+          </children>
+          <GridPane.margin>
+            <Insets left="5.0" top="10.0"/>
+          </GridPane.margin>
+        </HBox>
+      </children>
+      <BorderPane.margin>
+        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+      </BorderPane.margin>
+    </GridPane>
+  </center>
+  <stylesheets>
+    <URL value="@../css/GlobalCss.css"/>
+    <URL value="@../css/MainScreen.css"/>
+  </stylesheets>
+</BorderPane>
