@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
+import me.ialistannen.embedcreator.model.CharacterLimit;
 
 /**
  * An embed field
@@ -55,8 +56,8 @@ public class EmbedField extends GridPane {
 
   @FXML
   private void initialize() {
-//    LabeledUtil.makeEditable(name);
-//    LabeledUtil.makeEditable(value);
+    name.setCharacterLimit(CharacterLimit.FIELD_NAME);
+    value.setCharacterLimit(CharacterLimit.FIELD_VALUE);
   }
 
   /**

@@ -16,9 +16,9 @@
 <?import me.ialistannen.embedcreator.view.FieldContainer?>
 <?import me.ialistannen.embedcreator.view.UrlImageView?>
 <?import me.ialistannen.embedcreator.view.UrlLabel?>
-<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0"
-  minWidth="0.0" prefWidth="600.0" styleClass="background-pane"
-  xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1"
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="600.0" minHeight="0.0" minWidth="0.0"
+  prefWidth="600.0" styleClass="background-pane" xmlns="http://javafx.com/javafx/8.0.111"
+  xmlns:fx="http://javafx.com/fxml/1"
   fx:controller="me.ialistannen.embedcreator.controller.MainScreenController">
   <center>
     <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0"
@@ -33,7 +33,7 @@
         <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" vgrow="SOMETIMES"/>
         <RowConstraints maxHeight="1.7976931348623157E308" minHeight="0.0" vgrow="ALWAYS"/>
         <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" vgrow="SOMETIMES"/>
-        <RowConstraints maxHeight="37.0" minHeight="30.0" vgrow="NEVER"/>
+        <RowConstraints maxHeight="1.7976931348623157E308" minHeight="30.0" vgrow="NEVER"/>
       </rowConstraints>
       <children>
         <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
@@ -51,42 +51,51 @@
           </children>
         </AnchorPane>
         <HBox fillHeight="false" maxHeight="1.7976931348623157E308"
-          maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" spacing="10.0"
-          GridPane.halignment="LEFT" GridPane.valignment="CENTER">
+          maxWidth="1.7976931348623157E308" minHeight="10.0" minWidth="10.0"
+          GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER">
           <children>
             <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-              minHeight="10.0" minWidth="10.0" styleClass="image-container">
+              minHeight="10.0" minWidth="10.0" styleClass="image-container" HBox.hgrow="ALWAYS">
               <children>
                 <UrlImageView fx:id="authorAvatarImage" fitHeight="20.0" fitWidth="20.0"
-                  pickOnBounds="true" preserveRatio="true" styleClass="author-avatar-image">
+                  pickOnBounds="true" preserveRatio="true" styleClass="author-avatar-image"
+                  AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                  AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                   <image>
                     <Image url="@../images/placeholder.png"/>
                   </image>
                 </UrlImageView>
               </children>
+              <HBox.margin>
+                <Insets/>
+              </HBox.margin>
             </AnchorPane>
-            <UrlLabel fx:id="authorName" maxHeight="1.7976931348623157E308"
-              maxWidth="1.7976931348623157E308" minHeight="10.0" minWidth="10.0">
+            <UrlLabel fx:id="authorName" maxHeight="1.7976931348623157E308" maxWidth="450.0"
+              minHeight="10.0" minWidth="10.0" prefWidth="450.0" HBox.hgrow="SOMETIMES">
               <children>
-                <Text text="Sample author name, lorem ipsum dolor sit amet"/>
+                <Text text="Sample author name, lorem ipsum dolor sit amet"
+                  wrappingWidth="287.94384765625"/>
               </children>
               <styleClass>
                 <String fx:value="author-name"/>
                 <String fx:value="emphasized"/>
                 <String fx:value="text-container"/>
               </styleClass>
+              <HBox.margin>
+                <Insets left="10.0"/>
+              </HBox.margin>
             </UrlLabel>
           </children>
           <GridPane.margin>
             <Insets left="5.0" top="20.0"/>
           </GridPane.margin>
         </HBox>
-        <VBox fx:id="test" fillWidth="false" maxHeight="1.7976931348623157E308"
-          maxWidth="1.7976931348623157E308" minHeight="10.0" minWidth="10.0" spacing="10.0"
-          GridPane.columnSpan="2147483647" GridPane.rowIndex="1">
+        <VBox fx:id="test" fillWidth="false" maxHeight="1.7976931348623157E308" maxWidth="600.0"
+          minHeight="10.0" minWidth="10.0" spacing="10.0" GridPane.columnSpan="2147483647"
+          GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
           <children>
-            <UrlLabel fx:id="title" maxHeight="1.7976931348623157E308"
-              maxWidth="1.7976931348623157E308" minHeight="10.0" minWidth="10.0">
+            <UrlLabel fx:id="title" maxHeight="1.7976931348623157E308" maxWidth="600.0"
+              minHeight="10.0" minWidth="10.0">
               <children>
                 <Text text="Title"/>
               </children>
@@ -99,7 +108,7 @@
               </VBox.margin>
             </UrlLabel>
             <EditableTextFlow fx:id="descriptionText" maxHeight="1.7976931348623157E308"
-              maxWidth="1.7976931348623157E308" minHeight="10.0" minWidth="10.0">
+              maxWidth="600.0" minHeight="10.0" minWidth="10.0">
               <children>
                 <Text strokeType="OUTSIDE" strokeWidth="0.0"
                   text="Just some example description. This is totally not correct. This is a TextFlow, so I can maybe style it later on"/>
@@ -114,7 +123,7 @@
             </EditableTextFlow>
           </children>
           <GridPane.margin>
-            <Insets bottom="10.0" top="-20.0"/>
+            <Insets bottom="10.0" top="5.0"/>
           </GridPane.margin>
         </VBox>
         <FieldContainer fx:id="fieldContainer" maxHeight="1.7976931348623157E308"
@@ -140,11 +149,11 @@
           </children>
         </AnchorPane>
         <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308"
-          maxWidth="1.7976931348623157E308" minHeight="10.0" minWidth="10.0" spacing="10.0"
+          maxWidth="1.7976931348623157E308" minHeight="10.0" minWidth="10.0" GridPane.hgrow="ALWAYS"
           GridPane.rowIndex="4">
           <children>
             <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-              minHeight="10.0" minWidth="10.0" styleClass="image-container">
+              minHeight="10.0" minWidth="10.0" styleClass="image-container" HBox.hgrow="ALWAYS">
               <children>
                 <UrlImageView fx:id="footerImage" fitHeight="20.0" fitWidth="20.0"
                   pickOnBounds="true" preserveRatio="true" styleClass="footer-image"
@@ -156,8 +165,8 @@
                 </UrlImageView>
               </children>
             </AnchorPane>
-            <EditableTextFlow fx:id="footerText" maxHeight="1.7976931348623157E308"
-              maxWidth="1.7976931348623157E308" minHeight="10.0" minWidth="10.0">
+            <EditableTextFlow fx:id="footerText" maxHeight="1.7976931348623157E308" maxWidth="550.0"
+              minHeight="10.0" minWidth="10.0" HBox.hgrow="SOMETIMES">
               <children>
                 <Text text="Sample footer text, lorem ipsum dolor sit amet"/>
               </children>
@@ -165,6 +174,9 @@
                 <String fx:value="footer-text"/>
                 <String fx:value="text-container"/>
               </styleClass>
+              <HBox.margin>
+                <Insets left="10.0"/>
+              </HBox.margin>
             </EditableTextFlow>
           </children>
           <GridPane.margin>

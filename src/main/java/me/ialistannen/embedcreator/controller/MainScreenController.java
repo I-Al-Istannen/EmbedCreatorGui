@@ -12,6 +12,9 @@ import javafx.scene.shape.Shape;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import me.ialistannen.embedcreator.Main;
+import me.ialistannen.embedcreator.model.CharacterLimit;
+import me.ialistannen.embedcreator.model.Variable;
+import me.ialistannen.embedcreator.model.VariableRegistry;
 import me.ialistannen.embedcreator.util.ImageUtil;
 import me.ialistannen.embedcreator.view.EditableTextFlow;
 import me.ialistannen.embedcreator.view.FieldContainer;
@@ -57,7 +60,8 @@ public class MainScreenController {
   private void initialize() {
     setClips();
 
-    initFields();
+    VariableRegistry.addVariable(new Variable("Test", 20));
+//    initFields();
 
     ImageUtil.makeEditable(authorAvatarImage);
     ImageUtil.makeEditable(thumbnailImage);
@@ -68,6 +72,11 @@ public class MainScreenController {
     addText("Welcome", false);
     addText(" {player} ", true);
     addText("to the server!", false);
+
+    descriptionText.setCharacterLimit(CharacterLimit.DESCRIPTION);
+    footerText.setCharacterLimit(CharacterLimit.FOOTER);
+    authorName.setCharacterLimit(CharacterLimit.AUTHOR);
+    title.setCharacterLimit(CharacterLimit.TITLE);
   }
 
   private void addText(String text, boolean variable) {

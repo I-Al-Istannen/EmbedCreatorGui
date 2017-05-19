@@ -9,6 +9,8 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import me.ialistannen.embedcreator.model.CharacterLimit;
+import me.ialistannen.embedcreator.model.VariableRegistry;
 import me.ialistannen.embedcreator.util.CustomCursor;
 import me.ialistannen.embedcreator.util.SavedNodePosition;
 
@@ -21,9 +23,12 @@ public class EditableTextFlow extends TextFlow {
   private TextArea editingArea;
   private Pane parent;
 
+  private CharacterLimit characterLimit;
+
   /**
    * Creates an empty TextFlow layout.
    */
+  @SuppressWarnings("WeakerAccess") // needed for
   public EditableTextFlow() {
     setOnMouseClicked(event -> {
       if (event.getButton() != MouseButton.PRIMARY) {
@@ -42,6 +47,7 @@ public class EditableTextFlow extends TextFlow {
     savedNodePosition = SavedNodePosition.of(this);
     if (getParent() instanceof Pane) {
       parent = (Pane) getParent();
+//      maxWidthProperty().bind(parent.maxWidthProperty());
       parent.getChildren().remove(this);
     } else {
       throw new IllegalStateException("I am not added to a Pane!");
@@ -83,7 +89,8 @@ public class EditableTextFlow extends TextFlow {
 
   private void endEditing(boolean keepNewText) {
     if (keepNewText) {
-      setText(editingArea.getText());
+      String text = editingArea.getText();
+      Platform.runLater(() -> setText(text));
     }
 
     // may be called multiple times
@@ -156,9 +163,11 @@ public class EditableTextFlow extends TextFlow {
       }
     }
 
-    if (lastNormalChar > 0) {
+    if (lastNormalChar >= 0) {
       addText(text.substring(lastNormalChar, text.length()), false);
     }
+
+    highlightIfTooLong();
   }
 
   /**
@@ -169,9 +178,40 @@ public class EditableTextFlow extends TextFlow {
    */
   private void addText(String text, boolean variable) {
     Text textNode = new Text(text);
-    if (variable) {
+    if (variable && VariableRegistry.hasVariable(getVariableName(text))) {
+      // add it a pulse later as otherwise CSS will not be applied to this node.
       Platform.runLater(() -> textNode.getStyleClass().add("variable"));
     }
     getChildren().add(textNode);
+  }
+
+  /**
+   * Returns the variable name from a full text string.
+   *
+   * @param fullText The full variable name, in the form of {@code "{name}"}.
+   * @return The name inside the brackets
+   */
+  private String getVariableName(String fullText) {
+    return fullText.substring(1, fullText.length() - 1);
+  }
+
+  /**
+   * Highlights the {@link TextFlow} if it is too long.
+   */
+  private void highlightIfTooLong() {
+    getStyleClass().removeIf(string -> string.equalsIgnoreCase("too-long"));
+
+    if (characterLimit != null) {
+      if (getText().length() > characterLimit.getMaxSize()) {
+        getStyleClass().add("too-long");
+      }
+    }
+  }
+
+  /**
+   * @param characterLimit The {@link CharacterLimit} for this {@link EditableTextFlow}.
+   */
+  public void setCharacterLimit(CharacterLimit characterLimit) {
+    this.characterLimit = characterLimit;
   }
 }

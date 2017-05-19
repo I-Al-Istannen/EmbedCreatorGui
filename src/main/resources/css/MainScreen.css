@@ -11,6 +11,7 @@
 }
 
 .author-name {
+  /*-fx-padding: 0 0 0 10px;*/
 }
 
 .title > Text {
@@ -34,4 +35,8 @@
 
 .variable {
   -fx-fill: tomato;
+}
+
+.too-long {
+  -fx-effect: dropshadow(gaussian, indianred, 10, 0.5, 0, 0);
 }
