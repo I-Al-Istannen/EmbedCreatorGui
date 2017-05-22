@@ -2,6 +2,7 @@
 }
 
 .background-pane {
+  -fx-background-image: url("/images/background.png");
 }
 
 .thumbnail-image {

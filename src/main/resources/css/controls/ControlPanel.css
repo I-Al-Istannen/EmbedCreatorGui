@@ -1,0 +1,36 @@
+#controls-title {
+  -fx-font-size: 2em;
+  -fx-font-weight: bold;
+  -fx-text-fill: royalblue;
+}
+
+#status-description {
+
+}
+
+#status-value {
+  -fx-text-fill: royalblue;
+}
+
+#status-value:error {
+  -fx-text-fill: tomato;
+}
+
+#add-field-button {
+
+}
+
+#exit-button {
+
+}
+
+#generate-button {
+
+}
+
+.background-pane {
+  -fx-background-repeat: repeat;
+  -fx-border-width: 0 0 0 1px;
+  -fx-border-color: black;
+  -fx-border-style: solid;
+}

@@ -1,5 +1,9 @@
 package me.ialistannen.embedcreator.view;
 
+import java.util.ArrayList;
+import java.util.List;
+import javafx.application.Platform;
+import javafx.scene.Node;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
@@ -39,6 +43,9 @@ public class FieldContainer extends FlowPane {
     } else {
       addBlockField(field);
     }
+
+    // no idea why I need to wait here. It makes no sense.
+    Platform.runLater(() -> getScene().getWindow().sizeToScene());
   }
 
   private void addNormalField(EmbedField field) {
@@ -64,12 +71,27 @@ public class FieldContainer extends FlowPane {
    * Refreshes this node.
    */
   void refresh() {
-
+    List<Node> children = new ArrayList<>(getChildren());
+    getChildren().clear();
+    for (Node child : children) {
+      if (child instanceof EmbedField) {
+        EmbedField field = (EmbedField) child;
+        if (field.isInline()) {
+          addNormalField(field);
+        } else {
+          addBlockField(field);
+        }
+      }
+    }
+    getScene().getWindow().sizeToScene();
   }
 
   private static class Placeholder extends Region {
 
     Placeholder() {
+      setMinHeight(1);
+      maxHeight(1);
+      setPrefHeight(1);
       parentProperty().addListener((observable, oldValue, newValue) -> {
         if (newValue != null && newValue instanceof Pane) {
           prefWidthProperty().unbind();

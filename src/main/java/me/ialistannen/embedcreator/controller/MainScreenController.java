@@ -1,21 +1,22 @@
 package me.ialistannen.embedcreator.controller;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.GridPane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.scene.text.Text;
-import javafx.util.Duration;
-import me.ialistannen.embedcreator.Main;
 import me.ialistannen.embedcreator.model.CharacterLimit;
 import me.ialistannen.embedcreator.model.Variable;
 import me.ialistannen.embedcreator.model.VariableRegistry;
 import me.ialistannen.embedcreator.util.ImageUtil;
+import me.ialistannen.embedcreator.view.ControlPanel;
 import me.ialistannen.embedcreator.view.EditableTextFlow;
 import me.ialistannen.embedcreator.view.FieldContainer;
 import me.ialistannen.embedcreator.view.UrlImageView;
@@ -25,6 +26,12 @@ import me.ialistannen.embedcreator.view.UrlLabel;
  * A controller for the Main scene
  */
 public class MainScreenController {
+
+  @FXML
+  public ControlPanel controlPanel;
+
+  @FXML
+  public GridPane rootPane;
 
   @FXML
   private UrlImageView thumbnailImage;
@@ -54,9 +61,6 @@ public class MainScreenController {
   private EditableTextFlow footerText;
 
   @FXML
-  private VBox test;
-
-  @FXML
   private void initialize() {
     setClips();
 
@@ -67,6 +71,8 @@ public class MainScreenController {
     ImageUtil.makeEditable(thumbnailImage);
     ImageUtil.makeEditable(image);
     ImageUtil.makeEditable(footerImage);
+
+    controlPanel.setMainScreenController(this);
 
     descriptionText.getChildren().clear();
     addText("Welcome", false);
@@ -124,26 +130,44 @@ public class MainScreenController {
   }
 
   /**
-   * Creates the example field
+   * Returns the length of the full embed text.
+   *
+   * @return The lenght of the whole text
    */
-  private void initFields() {
-    Timeline timeline = new Timeline();
-    timeline.getKeyFrames().add(new KeyFrame(
-            Duration.seconds(1),
-            event -> {
-              addNewExampleField(Math.random() < 0.8);
-
-              // love you! Recalculating the layout at runtime is always nice
-              Main.getInstance().getPrimaryStage().sizeToScene();
-              Main.getInstance().getPrimaryStage().centerOnScreen();
-            }
-        )
-    );
-    timeline.setCycleCount(10);
-    timeline.play();
+  public int getWholeTextLength() {
+    return getChildrenRecursive(rootPane).stream()
+        .filter(node -> node instanceof EditableTextFlow)
+        .map(node -> (EditableTextFlow) node)
+        .map(EditableTextFlow::getText)
+        .map(String::length)
+        .reduce(Math::addExact)
+        .orElse(0);
   }
 
-  private void addNewExampleField(boolean inline) {
-    fieldContainer.addNewField("Test field name", "Test field value", inline);
+  /**
+   * Returns all children and their children and so on.
+   *
+   * @param node The Node to get all children for
+   * @return All children and their children
+   */
+  private List<Node> getChildrenRecursive(Node node) {
+    if (!(node instanceof Parent)) {
+      return Collections.singletonList(node);
+    }
+    List<Node> children = new ArrayList<>();
+    for (Node child : ((Parent) node).getChildrenUnmodifiable()) {
+      children.add(child);
+      children.addAll(getChildrenRecursive(child));
+    }
+    return children;
+  }
+
+  /**
+   * Adds a new dummy field.
+   *
+   * @param inline Whether it is an inline field.
+   */
+  public void addDummyField(boolean inline) {
+    fieldContainer.addNewField("This is the field name", "And the value", inline);
   }
 }

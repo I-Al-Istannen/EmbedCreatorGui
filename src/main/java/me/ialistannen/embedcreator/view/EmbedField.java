@@ -4,9 +4,12 @@ import java.io.IOException;
 import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import me.ialistannen.embedcreator.model.CharacterLimit;
+import me.ialistannen.embedcreator.util.Util;
 
 /**
  * An embed field
@@ -38,6 +41,8 @@ public class EmbedField extends GridPane {
     } catch (IOException e) {
       throw new RuntimeException("An error occurred loading the field FXML", e);
     }
+
+    setupContextMenu();
   }
 
   /**
@@ -52,6 +57,28 @@ public class EmbedField extends GridPane {
     setName(name);
     setValue(value);
     setInline(inline);
+  }
+
+  /**
+   * Creates the {@link ContextMenu}.
+   */
+  private void setupContextMenu() {
+    Util.setContextMenu(this, () -> {
+      MenuItem changeType;
+      if (isInline()) {
+        changeType = new MenuItem("Change to block field");
+        changeType.setOnAction(click -> setInline(false));
+      } else {
+        changeType = new MenuItem("Change to inline field");
+        changeType.setOnAction(click -> setInline(true));
+      }
+      MenuItem delete = new MenuItem("Delete");
+      delete.setOnAction(click -> {
+        owner.getChildren().remove(this);
+        owner.refresh();
+      });
+      return new ContextMenu(changeType, delete);
+    });
   }
 
   @FXML

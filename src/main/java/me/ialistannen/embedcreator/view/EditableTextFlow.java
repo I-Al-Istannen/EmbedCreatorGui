@@ -9,6 +9,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import me.ialistannen.embedcreator.cantbebothered.GlobalChangeListener;
 import me.ialistannen.embedcreator.model.CharacterLimit;
 import me.ialistannen.embedcreator.model.VariableRegistry;
 import me.ialistannen.embedcreator.util.CustomCursor;
@@ -18,6 +19,11 @@ import me.ialistannen.embedcreator.util.SavedNodePosition;
  * An editable {@link TextFlow}
  */
 public class EditableTextFlow extends TextFlow {
+
+  /**
+   * A space with a width of ZERO. Used to denote empty fields.
+   */
+  private static final String ZERO_WIDTH_SPACE = "\u200B";
 
   private SavedNodePosition savedNodePosition;
   private TextArea editingArea;
@@ -47,7 +53,6 @@ public class EditableTextFlow extends TextFlow {
     savedNodePosition = SavedNodePosition.of(this);
     if (getParent() instanceof Pane) {
       parent = (Pane) getParent();
-//      maxWidthProperty().bind(parent.maxWidthProperty());
       parent.getChildren().remove(this);
     } else {
       throw new IllegalStateException("I am not added to a Pane!");
@@ -58,9 +63,11 @@ public class EditableTextFlow extends TextFlow {
     editingArea = new TextArea(getText());
 
     editingArea.setWrapText(true);
-    editingArea.setMinSize(30, 10);
-    editingArea.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-    editingArea.setPrefSize(getWidth() + 20, getHeight() + 30);
+    editingArea.setMinSize(getMinWidth(), getMinHeight());
+    // some padding at the sides is nice
+    editingArea.setMaxSize(getMaxWidth() - 30, getMaxHeight() - 30);
+    editingArea.setPrefHeight(getHeight() + 30);
+    editingArea.setPadding(getPadding());
 
     editingArea.focusedProperty().addListener((observable, oldValue, newValue) -> {
       if (!newValue) {
@@ -103,7 +110,7 @@ public class EditableTextFlow extends TextFlow {
   /**
    * @return the text of this {@link TextFlow}.
    */
-  private String getText() {
+  public String getText() {
     return getChildren().stream()
         .map(this::getText)
         .filter(string -> !string.isEmpty())
@@ -168,6 +175,8 @@ public class EditableTextFlow extends TextFlow {
     }
 
     highlightIfTooLong();
+
+    GlobalChangeListener.getInstance().notifyOfChange();
   }
 
   /**
