@@ -1,5 +1,6 @@
 package me.ialistannen.embedcreator.view;
 
+import java.util.Optional;
 import java.util.stream.Collectors;
 import javafx.application.Platform;
 import javafx.scene.Node;
@@ -11,6 +12,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import me.ialistannen.embedcreator.cantbebothered.GlobalChangeListener;
 import me.ialistannen.embedcreator.model.CharacterLimit;
+import me.ialistannen.embedcreator.model.variables.Variable;
 import me.ialistannen.embedcreator.model.variables.VariableRegistry;
 import me.ialistannen.embedcreator.util.CustomCursor;
 import me.ialistannen.embedcreator.util.SavedNodePosition;
@@ -116,7 +118,25 @@ public class EditableTextFlow extends TextFlow {
    * @return The max length this text may have including variables.
    */
   public int getLengthResolveVariables() {
-    return getText().length();
+    int size = 0;
+    for (Node node : getChildren()) {
+      String text = getText(node);
+      if (!node.getStyleClass().contains("variable") || text.length() < 2) {
+        size += text.length();
+      } else {
+        text = text.substring(1, text.length() - 1);
+        Optional<Variable> variable = VariableRegistry.getVariable(text);
+        if (!variable.isPresent()) {
+          size += text.length() + 2;
+          continue;
+        }
+        System.out
+            .println("Added " + variable.get().getMaxLength() + " for " + variable.get().getName());
+        size += variable.get().getMaxLength();
+      }
+    }
+    System.out.println(VariableRegistry.getAllVariables());
+    return size;
   }
 
   /**

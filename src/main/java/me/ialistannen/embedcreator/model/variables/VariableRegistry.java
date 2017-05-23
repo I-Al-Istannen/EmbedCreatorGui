@@ -23,17 +23,17 @@ import me.ialistannen.embedcreator.util.Util;
 public class VariableRegistry {
 
   private static final Logger LOGGER = Logger.getLogger("VariableRegistry");
-  private static final ExecutorService executor = Executors.newCachedThreadPool();
+  private static final ExecutorService executor = Executors.newCachedThreadPool(r -> {
+    Thread thread = Executors.defaultThreadFactory().newThread(r);
+    thread.setDaemon(true);
+    return thread;
+  });
   private static final Map<String, Variable> variables = new ConcurrentHashMap<>();
-
-  static {
-    addDefaults();
-  }
 
   /**
    * Adds the default variables.
    */
-  private static void addDefaults() {
+  public static void initDefaults() {
     addVariables(new GithubXaanitFetcher());
   }
 
@@ -58,7 +58,7 @@ public class VariableRegistry {
       }
     });
 
-    Window window = Util.showWaitingAnimation();
+    Window window = Util.showWaitingAnimation("Loading available variables...");
     CompletableFuture.runAsync(() -> {
       try {
         future.get();

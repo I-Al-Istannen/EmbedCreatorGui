@@ -1,12 +1,15 @@
 package me.ialistannen.embedcreator.util;
 
 import java.util.function.Supplier;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -44,7 +47,7 @@ public class Util {
    *
    * @return The created {@link Window}
    */
-  public static Window showWaitingAnimation() {
+  public static Window showWaitingAnimation(String text) {
     Stage stage = new Stage(StageStyle.TRANSPARENT);
 
     ProgressIndicator progressIndicator = new ProgressIndicator();
@@ -52,10 +55,18 @@ public class Util {
     BorderPane rootPane = new BorderPane();
 
     progressIndicator.setBackground(null);
+
+    Label title = new Label(text);
+    title.setTextAlignment(TextAlignment.CENTER);
+    BorderPane.setAlignment(title, Pos.CENTER);
+    title.setId("header");
+
     rootPane.setBackground(null);
     rootPane.setCenter(progressIndicator);
+    rootPane.setTop(title);
 
     Scene scene = new Scene(rootPane);
+    scene.getStylesheets().add("/css/loading/LoadingAnimation.css");
     scene.setFill(new Color(0, 0, 0, 0.5));
 
     stage.setScene(scene);
