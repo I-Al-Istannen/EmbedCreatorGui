@@ -112,7 +112,7 @@
               maxWidth="600.0" minHeight="30.0" minWidth="40.0">
               <children>
                 <Text strokeType="OUTSIDE" strokeWidth="0.0"
-                  text="Just some example description. This is totally not correct. This is a TextFlow, so I can maybe style it later on"/>
+                  text="Just some example description."/>
               </children>
               <styleClass>
                 <String fx:value="description-text"/>

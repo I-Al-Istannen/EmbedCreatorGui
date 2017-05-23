@@ -1,4 +1,4 @@
-package me.ialistannen.embedcreator.model;
+package me.ialistannen.embedcreator.model.variables;
 
 import java.util.Objects;
 

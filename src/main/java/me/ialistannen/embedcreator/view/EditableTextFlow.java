@@ -11,7 +11,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import me.ialistannen.embedcreator.cantbebothered.GlobalChangeListener;
 import me.ialistannen.embedcreator.model.CharacterLimit;
-import me.ialistannen.embedcreator.model.VariableRegistry;
+import me.ialistannen.embedcreator.model.variables.VariableRegistry;
 import me.ialistannen.embedcreator.util.CustomCursor;
 import me.ialistannen.embedcreator.util.SavedNodePosition;
 
@@ -19,11 +19,6 @@ import me.ialistannen.embedcreator.util.SavedNodePosition;
  * An editable {@link TextFlow}
  */
 public class EditableTextFlow extends TextFlow {
-
-  /**
-   * A space with a width of ZERO. Used to denote empty fields.
-   */
-  private static final String ZERO_WIDTH_SPACE = "\u200B";
 
   private SavedNodePosition savedNodePosition;
   private TextArea editingArea;
@@ -115,6 +110,13 @@ public class EditableTextFlow extends TextFlow {
         .map(this::getText)
         .filter(string -> !string.isEmpty())
         .collect(Collectors.joining(""));
+  }
+
+  /**
+   * @return The max length this text may have including variables.
+   */
+  public int getLengthResolveVariables() {
+    return getText().length();
   }
 
   /**

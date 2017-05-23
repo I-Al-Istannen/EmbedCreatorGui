@@ -2,7 +2,16 @@ package me.ialistannen.embedcreator.util;
 
 import java.util.function.Supplier;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.ProgressIndicator;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.stage.Window;
+import me.ialistannen.embedcreator.Main;
 
 /**
  * Some misc utility methods.
@@ -28,5 +37,41 @@ public class Util {
 
       contextMenu.show(node, event.getScreenX(), event.getScreenY());
     });
+  }
+
+  /**
+   * Shows a waiting animation.
+   *
+   * @return The created {@link Window}
+   */
+  public static Window showWaitingAnimation() {
+    Stage stage = new Stage(StageStyle.TRANSPARENT);
+
+    ProgressIndicator progressIndicator = new ProgressIndicator();
+    progressIndicator.setMaxSize(200, 200);
+    BorderPane rootPane = new BorderPane();
+
+    progressIndicator.setBackground(null);
+    rootPane.setBackground(null);
+    rootPane.setCenter(progressIndicator);
+
+    Scene scene = new Scene(rootPane);
+    scene.setFill(new Color(0, 0, 0, 0.5));
+
+    stage.setScene(scene);
+
+    Stage primaryStage = Main.getInstance().getPrimaryStage();
+
+    stage.initModality(Modality.APPLICATION_MODAL);
+    stage.initOwner(primaryStage);
+
+    stage.setWidth(primaryStage.getWidth());
+    stage.setHeight(primaryStage.getHeight());
+    stage.setX(primaryStage.getX());
+    stage.setY(primaryStage.getY());
+
+    stage.show();
+
+    return stage;
   }
 }

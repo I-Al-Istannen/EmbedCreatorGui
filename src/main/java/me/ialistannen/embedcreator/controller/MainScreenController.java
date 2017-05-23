@@ -11,10 +11,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
-import javafx.scene.text.Text;
 import me.ialistannen.embedcreator.model.CharacterLimit;
-import me.ialistannen.embedcreator.model.Variable;
-import me.ialistannen.embedcreator.model.VariableRegistry;
 import me.ialistannen.embedcreator.util.ImageUtil;
 import me.ialistannen.embedcreator.view.ControlPanel;
 import me.ialistannen.embedcreator.view.EditableTextFlow;
@@ -64,9 +61,6 @@ public class MainScreenController {
   private void initialize() {
     setClips();
 
-    VariableRegistry.addVariable(new Variable("Test", 20));
-//    initFields();
-
     ImageUtil.makeEditable(authorAvatarImage);
     ImageUtil.makeEditable(thumbnailImage);
     ImageUtil.makeEditable(image);
@@ -74,23 +68,10 @@ public class MainScreenController {
 
     controlPanel.setMainScreenController(this);
 
-    descriptionText.getChildren().clear();
-    addText("Welcome", false);
-    addText(" {player} ", true);
-    addText("to the server!", false);
-
     descriptionText.setCharacterLimit(CharacterLimit.DESCRIPTION);
     footerText.setCharacterLimit(CharacterLimit.FOOTER);
     authorName.setCharacterLimit(CharacterLimit.AUTHOR);
     title.setCharacterLimit(CharacterLimit.TITLE);
-  }
-
-  private void addText(String text, boolean variable) {
-    Text textNode = new Text(text);
-    if (variable) {
-      textNode.getStyleClass().add("variable");
-    }
-    descriptionText.getChildren().add(textNode);
   }
 
   /**
@@ -138,8 +119,7 @@ public class MainScreenController {
     return getChildrenRecursive(rootPane).stream()
         .filter(node -> node instanceof EditableTextFlow)
         .map(node -> (EditableTextFlow) node)
-        .map(EditableTextFlow::getText)
-        .map(String::length)
+        .map(EditableTextFlow::getLengthResolveVariables)
         .reduce(Math::addExact)
         .orElse(0);
   }
