@@ -10,6 +10,7 @@ public class Variable {
   private int maxLength;
 
   private String name;
+  private String description;
 
   /**
    * Creates a new variable with the given name and the max length of 32.
@@ -24,12 +25,27 @@ public class Variable {
   /**
    * Creates a new variable with the given name and max length.
    *
+   * <p>Default description is a placeholder.</p>
+   *
    * @param maxLength The maximum length this variable can have.
    * @param name The name of the variable
+   * @see #Variable(String, int, String)
    */
   public Variable(String name, int maxLength) {
+    this(name, maxLength, "Placeholder");
+  }
+
+  /**
+   * Creates a new variable with the given name and max length.
+   *
+   * @param maxLength The maximum length this variable can have.
+   * @param name The name of the variable
+   * @param description The description of the variable
+   */
+  public Variable(String name, int maxLength, String description) {
     this.maxLength = maxLength;
     this.name = name;
+    this.description = description;
   }
 
   /**
@@ -44,6 +60,13 @@ public class Variable {
    */
   public String getName() {
     return name;
+  }
+
+  /**
+   * @return The description of the variable
+   */
+  public String getDescription() {
+    return description;
   }
 
   @Override

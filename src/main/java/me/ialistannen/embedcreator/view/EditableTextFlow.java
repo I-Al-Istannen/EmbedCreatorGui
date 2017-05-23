@@ -6,6 +6,7 @@ import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.control.Labeled;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
@@ -207,6 +208,20 @@ public class EditableTextFlow extends TextFlow {
   private void addText(String text, boolean variable) {
     Text textNode = new Text(text);
     if (variable && VariableRegistry.hasVariable(getVariableName(text))) {
+      String description = VariableRegistry.getVariable(getVariableName(text))
+          .orElse(null)
+          .getDescription();
+
+      textNode.setOnMouseEntered(event -> {
+        if (textNode.getUserData() != null) {
+          return;
+        }
+        textNode.setUserData("shown");
+        Tooltip tooltip = new Tooltip(description);
+        tooltip.setOnHidden(hidden -> textNode.setUserData(null));
+        tooltip.setAutoHide(true);
+        tooltip.show(textNode, event.getScreenX(), event.getScreenY());
+      });
       // add it a pulse later as otherwise CSS will not be applied to this node.
       Platform.runLater(() -> textNode.getStyleClass().add("variable"));
     }
