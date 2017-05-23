@@ -130,12 +130,9 @@ public class EditableTextFlow extends TextFlow {
           size += text.length() + 2;
           continue;
         }
-        System.out
-            .println("Added " + variable.get().getMaxLength() + " for " + variable.get().getName());
         size += variable.get().getMaxLength();
       }
     }
-    System.out.println(VariableRegistry.getAllVariables());
     return size;
   }
 
