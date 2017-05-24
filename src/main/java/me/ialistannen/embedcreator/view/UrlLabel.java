@@ -62,4 +62,11 @@ public class UrlLabel extends EditableTextFlow {
     this.url = url;
     setupContextMenu();
   }
+
+  /**
+   * @return The URl
+   */
+  public String getUrl() {
+    return url;
+  }
 }

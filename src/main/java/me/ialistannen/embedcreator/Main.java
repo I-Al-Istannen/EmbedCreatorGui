@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import me.ialistannen.embedcreator.controller.MainScreenController;
 import me.ialistannen.embedcreator.model.variables.VariableRegistry;
 
 public class Main extends Application {
@@ -13,6 +14,7 @@ public class Main extends Application {
   private static Main instance;
 
   private Stage primaryStage;
+  private MainScreenController mainScreenController;
 
   /**
    * Prevent instantiation.
@@ -32,6 +34,7 @@ public class Main extends Application {
 
     FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MainScreen.fxml"));
     Parent parent = loader.load();
+    mainScreenController = loader.getController();
 
     Scene scene = new Scene(parent);
     primaryStage.setScene(scene);
@@ -47,6 +50,13 @@ public class Main extends Application {
    */
   public Stage getPrimaryStage() {
     return primaryStage;
+  }
+
+  /**
+   * @return The {@link MainScreenController}
+   */
+  public MainScreenController getMainScreenController() {
+    return mainScreenController;
   }
 
   /**

@@ -16,6 +16,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import me.ialistannen.embedcreator.cantbebothered.GlobalChangeListener;
 import me.ialistannen.embedcreator.controller.MainScreenController;
+import me.ialistannen.embedcreator.extraction.Generator;
+import me.ialistannen.embedcreator.extraction.GeneratorData;
 import me.ialistannen.embedcreator.model.CharacterLimit;
 import me.ialistannen.embedcreator.model.variables.VariableRegistry;
 
@@ -35,6 +37,7 @@ public class ControlPanel extends BorderPane {
 
 
   private MainScreenController mainScreenController;
+  private Generator generator = data -> "N/A";
 
   /**
    * Creates a new ControlPanel.
@@ -108,6 +111,7 @@ public class ControlPanel extends BorderPane {
   @FXML
   void onGenerate(ActionEvent event) {
     System.out.println("Generating...");
+    System.out.println(generator.generate(GeneratorData.fromMain()));
   }
 
   @FXML

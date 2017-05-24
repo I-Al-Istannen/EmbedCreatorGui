@@ -2,6 +2,7 @@ package me.ialistannen.embedcreator.view;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.layout.FlowPane;
@@ -25,6 +26,16 @@ public class FieldContainer extends FlowPane {
 
     setVgap(10);
     setHgap(10);
+  }
+
+  /**
+   * @return All {@link EmbedField}s in this container.
+   */
+  public List<EmbedField> getFields() {
+    return getChildren().stream()
+        .filter(node -> node instanceof EmbedField)
+        .map(node -> (EmbedField) node)
+        .collect(Collectors.toList());
   }
 
   /**

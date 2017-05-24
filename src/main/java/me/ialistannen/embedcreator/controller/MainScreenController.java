@@ -11,10 +11,12 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import me.ialistannen.embedcreator.extraction.GeneratorData.TextWithUrl;
 import me.ialistannen.embedcreator.model.CharacterLimit;
 import me.ialistannen.embedcreator.util.ImageUtil;
 import me.ialistannen.embedcreator.view.ControlPanel;
 import me.ialistannen.embedcreator.view.EditableTextFlow;
+import me.ialistannen.embedcreator.view.EmbedField;
 import me.ialistannen.embedcreator.view.FieldContainer;
 import me.ialistannen.embedcreator.view.UrlImageView;
 import me.ialistannen.embedcreator.view.UrlLabel;
@@ -149,5 +151,41 @@ public class MainScreenController {
    */
   public void addDummyField(boolean inline) {
     fieldContainer.addNewField("This is the field name", "And the value", inline);
+  }
+
+  public String getHeaderImage() {
+    return authorAvatarImage.getUrl();
+  }
+
+  public TextWithUrl getAuthorName() {
+    return new TextWithUrl(authorName.getText(), authorName.getUrl());
+  }
+
+  public String getFooterImage() {
+    return footerImage.getUrl();
+  }
+
+  public String getFooterText() {
+    return footerText.getText();
+  }
+
+  public String getThumbnailImage() {
+    return thumbnailImage.getUrl();
+  }
+
+  public TextWithUrl getTitle() {
+    return new TextWithUrl(title.getText(), title.getUrl());
+  }
+
+  public String getDescription() {
+    return descriptionText.getText();
+  }
+
+  public String getImage() {
+    return image.getUrl();
+  }
+
+  public List<EmbedField> getFields() {
+    return fieldContainer.getFields();
   }
 }
