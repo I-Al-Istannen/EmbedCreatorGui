@@ -7,6 +7,9 @@ import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.Label;
@@ -14,6 +17,7 @@ import javafx.scene.layout.BorderPane;
 import me.ialistannen.embedcreator.cantbebothered.GlobalChangeListener;
 import me.ialistannen.embedcreator.controller.MainScreenController;
 import me.ialistannen.embedcreator.model.CharacterLimit;
+import me.ialistannen.embedcreator.model.variables.VariableRegistry;
 
 /**
  * The control panel.
@@ -84,14 +88,31 @@ public class ControlPanel extends BorderPane {
     });
   }
 
+
   @FXML
-  void onExit(ActionEvent event) {
-    System.exit(0);
+  void onViewAllVariables(ActionEvent event) {
+    VariableList variableList = new VariableList();
+    variableList.getItems().addAll(VariableRegistry.getAllVariables());
+
+    Alert alert = new Alert(AlertType.INFORMATION);
+    alert.setTitle("Variable list");
+    alert.setHeaderText("Here is a list with all Variables");
+    variableList.setPadding(new Insets(20));
+    alert.getDialogPane().setContent(variableList);
+
+    alert.setResizable(false);
+
+    alert.show();
   }
 
   @FXML
   void onGenerate(ActionEvent event) {
     System.out.println("Generating...");
+  }
+
+  @FXML
+  void onExit(ActionEvent event) {
+    System.exit(0);
   }
 
   /**

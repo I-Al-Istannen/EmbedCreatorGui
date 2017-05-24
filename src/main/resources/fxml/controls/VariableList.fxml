@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<fx:root maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity"
+  minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" styleClass="root" type="TableView"
+  xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+  <columns>
+    <TableColumn fx:id="nameColumn" minWidth="100.0" styleClass="name-column" text="Name"/>
+    <TableColumn fx:id="maxLengthColumn" maxWidth="100.0" minWidth="100.0"
+      styleClass="max.length-column" text="Max length"/>
+    <TableColumn fx:id="descriptionColumn" minWidth="100.0" styleClass="description-column"
+      text="Description"/>
+  </columns>
+  <stylesheets>
+    <URL value="@../../css/GlobalCss.css"/>
+    <URL value="@../../css/controls/VariableList.css"/>
+  </stylesheets>
+  <columnResizePolicy>
+    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+  </columnResizePolicy>
+</fx:root>
