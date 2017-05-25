@@ -37,6 +37,7 @@ public class UrlImageView extends ImageView {
       String name = url.substring(1, url.length() - 1);
       if (VariableRegistry.getVariable(name).isPresent()) {
         setImage(getVariablePlaceholderImage());
+        this.url = url;
         return;
       }
     }
