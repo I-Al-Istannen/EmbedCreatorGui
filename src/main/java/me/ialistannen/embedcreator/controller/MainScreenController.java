@@ -3,6 +3,7 @@ package me.ialistannen.embedcreator.controller;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -13,11 +14,13 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import me.ialistannen.embedcreator.extraction.Provider;
-import me.ialistannen.embedcreator.extraction.ProviderManager;
-import me.ialistannen.embedcreator.extraction.ProviderManager.ProviderType;
+import me.ialistannen.embedcreator.extraction.ProviderCollection;
+import me.ialistannen.embedcreator.extraction.ProviderCollection.ProviderType;
 import me.ialistannen.embedcreator.extraction.TextWithUrl;
-import me.ialistannen.embedcreator.model.CharacterLimit;
 import me.ialistannen.embedcreator.util.ImageUtil;
+import me.ialistannen.embedcreator.validation.CharacterLimit;
+import me.ialistannen.embedcreator.validation.ValidationEvent;
+import me.ialistannen.embedcreator.validation.ValidationEventDispatcher;
 import me.ialistannen.embedcreator.view.ControlPanel;
 import me.ialistannen.embedcreator.view.EditableTextFlow;
 import me.ialistannen.embedcreator.view.EmbedField;
@@ -158,46 +161,46 @@ public class MainScreenController {
   }
 
   /**
-   * Sets the {@link ProviderManager} and adds all relevant {@link Provider}s to it.
+   * Sets the {@link ProviderCollection} and adds all relevant {@link Provider}s to it.
    *
-   * @param providerManager The {@link ProviderManager} to use.
+   * @param providerCollection The {@link ProviderCollection} to use.
    */
-  public void setProviderManager(ProviderManager providerManager) {
-    controlPanel.setProviderManager(providerManager);
+  public void setProviderCollection(ProviderCollection providerCollection) {
+    controlPanel.setProviderCollection(providerCollection);
 
-    providerManager.addProvider(
+    providerCollection.addProvider(
         ProviderType.AUTHOR_IMAGE,
         Provider.ofSingleType(String.class, authorAvatarImage::getUrl)
     );
-    providerManager.addProvider(
+    providerCollection.addProvider(
         ProviderType.AUTHOR_TEXT,
         Provider.ofSingleType(TextWithUrl.class, supplierFromUrlLabel(authorName))
     );
-    providerManager.addProvider(
+    providerCollection.addProvider(
         ProviderType.THUMBNAIL_IMAGE,
         Provider.ofSingleType(String.class, thumbnailImage::getUrl)
     );
-    providerManager.addProvider(
+    providerCollection.addProvider(
         ProviderType.TITLE,
         Provider.ofSingleType(TextWithUrl.class, supplierFromUrlLabel(title))
     );
-    providerManager.addProvider(
+    providerCollection.addProvider(
         ProviderType.DESCRIPTION,
         Provider.ofSingleType(String.class, descriptionText::getText)
     );
-    providerManager.addProvider(
+    providerCollection.addProvider(
         ProviderType.FIELDS,
         Provider.ofType(EmbedField.class, fieldContainer::getFields)
     );
-    providerManager.addProvider(
+    providerCollection.addProvider(
         ProviderType.IMAGE,
         Provider.ofSingleType(String.class, image::getUrl)
     );
-    providerManager.addProvider(
+    providerCollection.addProvider(
         ProviderType.FOOTER_IMAGE,
         Provider.ofSingleType(String.class, footerImage::getUrl)
     );
-    providerManager.addProvider(
+    providerCollection.addProvider(
         ProviderType.FOOTER_TEXT,
         Provider.ofSingleType(String.class, footerText::getText)
     );
@@ -212,5 +215,33 @@ public class MainScreenController {
    */
   private Supplier<TextWithUrl> supplierFromUrlLabel(UrlLabel label) {
     return () -> new TextWithUrl(label.getText(), label.getUrl());
+  }
+
+  /**
+   * @param dispatcher The {@link ValidationEventDispatcher} to use.
+   */
+  public void setValidationEventDispatcher(ValidationEventDispatcher dispatcher) {
+    dispatcher.addListener(controlPanel);
+
+    addValidationDispatchers(dispatcher);
+  }
+
+  /**
+   * @param dispatcher The {@link ValidationEventDispatcher} to add them to.
+   */
+  private void addValidationDispatchers(ValidationEventDispatcher dispatcher) {
+    Consumer<EditableTextFlow> editListener = editableTextFlow -> {
+      CharacterLimit characterLimit = editableTextFlow.getCharacterLimit();
+      ValidationEvent validationEvent = new ValidationEvent(
+          characterLimit,
+          editableTextFlow.getLengthResolveVariables()
+      );
+      dispatcher.dispatchEvent(validationEvent);
+    };
+
+    authorName.addEditListener(editListener);
+    title.addEditListener(editListener);
+    descriptionText.addEditListener(editListener);
+    footerText.addEditListener(editListener);
   }
 }

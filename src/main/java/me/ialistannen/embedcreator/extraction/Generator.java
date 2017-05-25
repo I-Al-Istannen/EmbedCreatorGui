@@ -7,10 +7,10 @@ package me.ialistannen.embedcreator.extraction;
 public interface Generator {
 
   /**
-   * Generates a command string from a given {@link ProviderManager}.
+   * Generates a command string from a given {@link ProviderCollection}.
    *
-   * @param data The {@link ProviderManager} to use
+   * @param data The {@link ProviderCollection} to use
    * @return The generated String
    */
-  String generate(ProviderManager data);
+  String generate(ProviderCollection data);
 }

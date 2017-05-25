@@ -9,7 +9,7 @@ import me.ialistannen.embedcreator.view.EmbedField;
 /**
  * Manages the {@link Provider}'s
  */
-public class ProviderManager {
+public class ProviderCollection {
 
   private static final NopProvider NOP_PROVIDER = new NopProvider();
 
@@ -64,7 +64,7 @@ public class ProviderManager {
 
   @Override
   public String toString() {
-    return "ProviderManager{"
+    return "ProviderCollection{"
         + "providers=" + providers
         + '}';
   }

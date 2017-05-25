@@ -1,4 +1,4 @@
-package me.ialistannen.embedcreator.model;
+package me.ialistannen.embedcreator.validation;
 
 /**
  * The character limits for the individual parts.

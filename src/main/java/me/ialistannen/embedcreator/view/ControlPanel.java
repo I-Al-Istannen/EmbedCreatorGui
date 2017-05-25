@@ -2,7 +2,7 @@ package me.ialistannen.embedcreator.view;
 
 import java.io.IOException;
 import java.util.Optional;
-import javafx.application.Platform;
+import java.util.function.Consumer;
 import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,18 +14,19 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
-import me.ialistannen.embedcreator.cantbebothered.GlobalChangeListener;
 import me.ialistannen.embedcreator.controller.MainScreenController;
 import me.ialistannen.embedcreator.extraction.Generator;
-import me.ialistannen.embedcreator.extraction.ProviderManager;
-import me.ialistannen.embedcreator.extraction.ProviderManager.ProviderType;
-import me.ialistannen.embedcreator.model.CharacterLimit;
-import me.ialistannen.embedcreator.model.variables.VariableRegistry;
+import me.ialistannen.embedcreator.extraction.ProviderCollection;
+import me.ialistannen.embedcreator.extraction.ProviderCollection.ProviderType;
+import me.ialistannen.embedcreator.validation.CharacterLimit;
+import me.ialistannen.embedcreator.validation.ValidationEvent;
+import me.ialistannen.embedcreator.validation.ValidationEvent.ValidationResult;
+import me.ialistannen.embedcreator.variables.VariableRegistry;
 
 /**
  * The control panel.
  */
-public class ControlPanel extends BorderPane {
+public class ControlPanel extends BorderPane implements Consumer<ValidationEvent> {
 
   @FXML
   private Label statusValue;
@@ -39,7 +40,7 @@ public class ControlPanel extends BorderPane {
 
   private MainScreenController mainScreenController;
   private Generator generator = new DebugPrintingGenerator();
-  private ProviderManager providerManager;
+  private ProviderCollection providerCollection;
 
   /**
    * Creates a new ControlPanel.
@@ -55,26 +56,6 @@ public class ControlPanel extends BorderPane {
       fxmlLoader.load();
     } catch (IOException e) {
       throw new RuntimeException("Error loading Control panel", e);
-    }
-  }
-
-  @FXML
-  private void initialize() {
-    GlobalChangeListener.getInstance().addListener(
-        () -> Platform.runLater(this::recalculateStatus)
-    );
-  }
-
-  /**
-   * Recalculate and set the status label.
-   */
-  private void recalculateStatus() {
-    if (mainScreenController.getWholeTextLength() > CharacterLimit.WHOLE_EMBED.getMaxSize()) {
-      statusValue.setText("Embed length must be <= " + CharacterLimit.WHOLE_EMBED.getMaxSize());
-      statusValue.pseudoClassStateChanged(PseudoClass.getPseudoClass("error"), true);
-    } else {
-      statusValue.setText("Okay");
-      statusValue.pseudoClassStateChanged(PseudoClass.getPseudoClass("error"), false);
     }
   }
 
@@ -113,7 +94,7 @@ public class ControlPanel extends BorderPane {
   @FXML
   void onGenerate(ActionEvent event) {
     System.out.println("Generating...");
-    System.out.println(generator.generate(providerManager));
+    System.out.println(generator.generate(providerCollection));
   }
 
   @FXML
@@ -131,16 +112,62 @@ public class ControlPanel extends BorderPane {
   }
 
   /**
-   * @param providerManager The {@link ProviderManager} to use.
+   * @param providerCollection The {@link ProviderCollection} to use.
    */
-  public void setProviderManager(ProviderManager providerManager) {
-    this.providerManager = providerManager;
+  public void setProviderCollection(ProviderCollection providerCollection) {
+    this.providerCollection = providerCollection;
+  }
+
+  @Override
+  public void accept(ValidationEvent event) {
+    if (event.getResult() == ValidationResult.ACCEPTED) {
+      clearStatus();
+    } else {
+      setErrorStatus(event.getCharacterLimit(), event.getCurrentTextLength());
+    }
+  }
+
+  private void clearStatus() {
+    statusValue.setText("Okay!");
+    statusValue.pseudoClassStateChanged(PseudoClass.getPseudoClass("error"), false);
+  }
+
+  private void setErrorStatus(CharacterLimit limit, int length) {
+    String name = enumFormat(limit);
+    String message = "'" + name + "' may be bigger than the limit, depending on e.g. variables."
+        + "\n\nSize: " + length + " / " + limit.getMaxSize();
+
+    statusValue.setText(message);
+
+    statusValue.pseudoClassStateChanged(PseudoClass.getPseudoClass("error"), true);
+  }
+
+  private String enumFormat(Enum<?> enumEntry) {
+    String name = enumEntry.name();
+    StringBuilder output = new StringBuilder();
+    boolean upperCase = true;
+
+    for (char c : name.toCharArray()) {
+      if (c == '_') {
+        upperCase = true;
+        output.append(" ");
+        continue;
+      }
+      if (upperCase) {
+        output.append(Character.toUpperCase(c));
+        upperCase = false;
+      } else {
+        output.append(Character.toLowerCase(c));
+      }
+    }
+
+    return output.toString();
   }
 
   private static class DebugPrintingGenerator implements Generator {
 
     @Override
-    public String generate(ProviderManager data) {
+    public String generate(ProviderCollection data) {
       for (ProviderType providerType : ProviderType.values()) {
         System.out.println(providerType.name() + ": " + data.get(providerType));
       }

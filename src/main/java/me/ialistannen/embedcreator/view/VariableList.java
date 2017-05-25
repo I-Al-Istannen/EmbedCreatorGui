@@ -17,7 +17,7 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.text.TextAlignment;
-import me.ialistannen.embedcreator.model.variables.Variable;
+import me.ialistannen.embedcreator.variables.Variable;
 
 /**
  * Shows {@link Variable} sand their description.

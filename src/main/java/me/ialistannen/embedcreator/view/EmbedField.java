@@ -8,8 +8,8 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
-import me.ialistannen.embedcreator.model.CharacterLimit;
 import me.ialistannen.embedcreator.util.Util;
+import me.ialistannen.embedcreator.validation.CharacterLimit;
 
 /**
  * An embed field

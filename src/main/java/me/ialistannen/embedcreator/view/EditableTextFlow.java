@@ -1,6 +1,10 @@
 package me.ialistannen.embedcreator.view;
 
+import java.util.Collections;
 import java.util.Optional;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import javafx.application.Platform;
 import javafx.scene.Node;
@@ -11,17 +15,20 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-import me.ialistannen.embedcreator.cantbebothered.GlobalChangeListener;
-import me.ialistannen.embedcreator.model.CharacterLimit;
-import me.ialistannen.embedcreator.model.variables.Variable;
-import me.ialistannen.embedcreator.model.variables.VariableRegistry;
 import me.ialistannen.embedcreator.util.CustomCursor;
 import me.ialistannen.embedcreator.util.SavedNodePosition;
+import me.ialistannen.embedcreator.validation.CharacterLimit;
+import me.ialistannen.embedcreator.variables.Variable;
+import me.ialistannen.embedcreator.variables.VariableRegistry;
 
 /**
  * An editable {@link TextFlow}
  */
 public class EditableTextFlow extends TextFlow {
+
+  private Set<Consumer<EditableTextFlow>> editListeners = Collections.newSetFromMap(
+      new ConcurrentHashMap<>()
+  );
 
   private SavedNodePosition savedNodePosition;
   private TextArea editingArea;
@@ -95,7 +102,12 @@ public class EditableTextFlow extends TextFlow {
   private void endEditing(boolean keepNewText) {
     if (keepNewText) {
       String text = editingArea.getText();
-      Platform.runLater(() -> setText(text));
+      Platform.runLater(() -> {
+        setText(text);
+        for (Consumer<EditableTextFlow> editListener : editListeners) {
+          editListener.accept(this);
+        }
+      });
     }
 
     // may be called multiple times
@@ -195,8 +207,6 @@ public class EditableTextFlow extends TextFlow {
     }
 
     highlightIfTooLong();
-
-    GlobalChangeListener.getInstance().notifyOfChange();
   }
 
   /**
@@ -256,5 +266,21 @@ public class EditableTextFlow extends TextFlow {
    */
   public void setCharacterLimit(CharacterLimit characterLimit) {
     this.characterLimit = characterLimit;
+  }
+
+  /**
+   * @return The {@link CharacterLimit} this {@link EditableTextFlow} uses.
+   */
+  public CharacterLimit getCharacterLimit() {
+    return characterLimit;
+  }
+
+  /**
+   * Adds a listener to be called after the text changes.
+   *
+   * @param listener The listener
+   */
+  public void addEditListener(Consumer<EditableTextFlow> listener) {
+    editListeners.add(listener);
   }
 }

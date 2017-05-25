@@ -7,8 +7,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import me.ialistannen.embedcreator.controller.MainScreenController;
-import me.ialistannen.embedcreator.extraction.ProviderManager;
-import me.ialistannen.embedcreator.model.variables.VariableRegistry;
+import me.ialistannen.embedcreator.extraction.ProviderCollection;
+import me.ialistannen.embedcreator.validation.ValidationEventDispatcher;
+import me.ialistannen.embedcreator.variables.VariableRegistry;
 
 public class Main extends Application {
 
@@ -35,7 +36,8 @@ public class Main extends Application {
     FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MainScreen.fxml"));
     Parent parent = loader.load();
     MainScreenController controller = loader.getController();
-    controller.setProviderManager(new ProviderManager());
+    controller.setProviderCollection(new ProviderCollection());
+    controller.setValidationEventDispatcher(new ValidationEventDispatcher());
 
     Scene scene = new Scene(parent);
     primaryStage.setScene(scene);
