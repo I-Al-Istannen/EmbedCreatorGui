@@ -7,7 +7,6 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.function.Predicate;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextInputDialog;
@@ -24,17 +23,6 @@ class UrlInputDialog extends TextInputDialog {
 
   private LocalDateTime nextCheckTime;
 
-  private Predicate<String> contentValidator = string -> true;
-
-  /**
-   * Creazes a new {@link UrlInputDialog} with an extra validator.
-   *
-   * @param contentValidator A validator to check if the conent of the URL is valid.
-   */
-  UrlInputDialog(Predicate<String> contentValidator) {
-    this();
-    this.contentValidator = contentValidator;
-  }
 
   /**
    * A new {@link UrlInputDialog} without any extra validator.
@@ -67,9 +55,7 @@ class UrlInputDialog extends TextInputDialog {
         }
 
         String text = getEditor().getText();
-        if (!isLikelyValidUrl(text)) {
-          setError();
-        } else if (!contentValidator.test(text)) {
+        if (!isValid(text)) {
           setError();
         } else {
           clearError();
@@ -100,6 +86,14 @@ class UrlInputDialog extends TextInputDialog {
 
   private void clearError() {
     okayButton.setDisable(false);
+  }
+
+  /**
+   * @param input The input url
+   * @return True if it is a valid url
+   */
+  protected boolean isValid(String input) {
+    return isLikelyValidUrl(input);
   }
 
   /**

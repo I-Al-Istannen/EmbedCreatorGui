@@ -77,7 +77,7 @@ public class GithubXaanitFetcher implements VariableFetcher {
         .substring(1, input.length() - 1)
         .split(";");
 
-    if (parts.length != 2) {
+    if (parts.length != 4) {
       return Optional.empty();
     }
 
@@ -85,8 +85,10 @@ public class GithubXaanitFetcher implements VariableFetcher {
     if (!length.isPresent()) {
       return Optional.empty();
     }
+    String description = parts[2];
+    boolean picture = Boolean.parseBoolean(parts[3]);
 
-    return Optional.of(new Variable(parts[0], length.getAsInt()));
+    return Optional.of(new Variable(parts[0], length.getAsInt(), description, picture));
   }
 
   private OptionalInt parseInt(String input) {

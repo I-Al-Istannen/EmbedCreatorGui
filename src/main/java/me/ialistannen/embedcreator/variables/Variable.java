@@ -11,19 +11,7 @@ public class Variable {
 
   private String name;
   private String description;
-
-  /**
-   * Creates a new variable with the given name and max length.
-   *
-   * <p>Default description is a placeholder.</p>
-   *
-   * @param maxLength The maximum length this variable can have.
-   * @param name The name of the variable
-   * @see #Variable(String, int, String)
-   */
-  public Variable(String name, int maxLength) {
-    this(name, maxLength, "Placeholder");
-  }
+  private boolean picture;
 
   /**
    * Creates a new variable with the given name and max length.
@@ -31,11 +19,13 @@ public class Variable {
    * @param maxLength The maximum length this variable can have.
    * @param name The name of the variable
    * @param description The description of the variable
+   * @param picture Whether the Variable is a picture url
    */
-  public Variable(String name, int maxLength, String description) {
+  public Variable(String name, int maxLength, String description, boolean picture) {
     this.maxLength = maxLength;
     this.name = name;
     this.description = description;
+    this.picture = picture;
   }
 
   /**
@@ -59,11 +49,20 @@ public class Variable {
     return description;
   }
 
+  /**
+   * @return True if this variable points to a picture url.
+   */
+  public boolean isPicture() {
+    return picture;
+  }
+
   @Override
   public String toString() {
     return "Variable{"
         + "maxLength=" + maxLength
         + ", name='" + name + '\''
+        + ", description='" + description + '\''
+        + ", picture=" + picture
         + '}';
   }
 
