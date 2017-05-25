@@ -47,6 +47,6 @@ public class ValidationEvent {
    */
   public enum ValidationResult {
     TOO_LONG,
-    ACCEPTED;
+    ACCEPTED
   }
 }

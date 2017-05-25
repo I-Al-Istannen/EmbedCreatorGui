@@ -45,6 +45,7 @@ public class FieldContainer extends FlowPane {
    * @param value The value of the field to add
    * @param inline Whether it is an inline field
    */
+  @SuppressWarnings("SameParameterValue")
   public void addNewField(String name, String value, boolean inline) {
     EmbedField field = new EmbedField(name, value, inline);
     field.setOwner(this);

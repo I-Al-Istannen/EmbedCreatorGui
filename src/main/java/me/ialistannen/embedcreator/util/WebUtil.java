@@ -8,9 +8,9 @@ import java.util.Optional;
 import javafx.scene.image.Image;
 
 /**
- * Some help with web requests
+ * Some help with web requests.
  */
-public class Webutil {
+public class WebUtil {
 
   /**
    * Returns an {@link java.io.InputStream} for a website.
@@ -20,14 +20,10 @@ public class Webutil {
    * @throws UnirestException if an error happens during the request.
    */
   public static InputStream getWebsiteStream(String url) throws UnirestException {
-    try {
-      return Unirest.get(url)
-          .header("User-Agent", "Mozilla/5.0")
-          .asBinary()
-          .getBody();
-    } catch (UnirestException e) {
-      throw e;
-    }
+    return Unirest.get(url)
+        .header("User-Agent", "Mozilla/5.0")
+        .asBinary()
+        .getBody();
   }
 
   /**

@@ -37,7 +37,6 @@ public class ControlPanel extends BorderPane implements Consumer<ValidationEvent
   @FXML
   private Button generateButton;
 
-
   private MainScreenController mainScreenController;
   private Generator generator = new DebugPrintingGenerator();
   private ProviderCollection providerCollection;

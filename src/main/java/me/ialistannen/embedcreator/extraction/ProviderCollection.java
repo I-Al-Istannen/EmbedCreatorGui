@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javafx.scene.paint.Color;
 import me.ialistannen.embedcreator.view.EmbedField;
 
 /**
@@ -73,6 +74,7 @@ public class ProviderCollection {
    * The different types of {@link Provider}s.
    */
   public enum ProviderType {
+    COLORED_BAR(Color.class),
     AUTHOR_TEXT(TextWithUrl.class),
     AUTHOR_IMAGE(String.class),
     THUMBNAIL_IMAGE(String.class),

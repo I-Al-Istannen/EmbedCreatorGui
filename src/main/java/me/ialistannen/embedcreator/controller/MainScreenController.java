@@ -10,6 +10,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
@@ -20,9 +21,11 @@ import me.ialistannen.embedcreator.extraction.TextWithUrl;
 import me.ialistannen.embedcreator.util.ImageUtil;
 import me.ialistannen.embedcreator.validation.CharacterLimit;
 import me.ialistannen.embedcreator.validation.ValidationEvent;
+import me.ialistannen.embedcreator.validation.ValidationEvent.ValidationResult;
 import me.ialistannen.embedcreator.validation.ValidationEventDispatcher;
 import me.ialistannen.embedcreator.view.ControlPanel;
 import me.ialistannen.embedcreator.view.EditableTextFlow;
+import me.ialistannen.embedcreator.view.EmbedColorBar;
 import me.ialistannen.embedcreator.view.EmbedField;
 import me.ialistannen.embedcreator.view.FieldContainer;
 import me.ialistannen.embedcreator.view.UrlImageView;
@@ -65,6 +68,9 @@ public class MainScreenController {
 
   @FXML
   private EditableTextFlow footerText;
+
+  @FXML
+  private EmbedColorBar embedColorBar;
 
   @FXML
   private void initialize() {
@@ -120,20 +126,6 @@ public class MainScreenController {
   }
 
   /**
-   * Returns the length of the full embed text.
-   *
-   * @return The lenght of the whole text
-   */
-  public int getWholeTextLength() {
-    return getChildrenRecursive(rootPane).stream()
-        .filter(node -> node instanceof EditableTextFlow)
-        .map(node -> (EditableTextFlow) node)
-        .map(EditableTextFlow::getLengthResolveVariables)
-        .reduce(Math::addExact)
-        .orElse(0);
-  }
-
-  /**
    * Returns all children and their children and so on.
    *
    * @param node The Node to get all children for
@@ -168,6 +160,10 @@ public class MainScreenController {
   public void setProviderCollection(ProviderCollection providerCollection) {
     controlPanel.setProviderCollection(providerCollection);
 
+    providerCollection.addProvider(
+        ProviderType.COLORED_BAR,
+        Provider.ofSingleType(Color.class, embedColorBar::getColor)
+    );
     providerCollection.addProvider(
         ProviderType.AUTHOR_IMAGE,
         Provider.ofSingleType(String.class, authorAvatarImage::getUrl)
@@ -237,11 +233,33 @@ public class MainScreenController {
           editableTextFlow.getLengthResolveVariables()
       );
       dispatcher.dispatchEvent(validationEvent);
+
+      if (validationEvent.getResult() == ValidationResult.ACCEPTED) {
+        ValidationEvent wholeLength = new ValidationEvent(
+            CharacterLimit.WHOLE_EMBED,
+            getWholeTextLength()
+        );
+        dispatcher.dispatchEvent(wholeLength);
+      }
     };
 
     authorName.addEditListener(editListener);
     title.addEditListener(editListener);
     descriptionText.addEditListener(editListener);
     footerText.addEditListener(editListener);
+  }
+
+  /**
+   * Returns the length of the full embed text.
+   *
+   * @return The length of the whole text
+   */
+  private int getWholeTextLength() {
+    return getChildrenRecursive(rootPane).stream()
+        .filter(node -> node instanceof EditableTextFlow)
+        .map(node -> (EditableTextFlow) node)
+        .map(EditableTextFlow::getLengthResolveVariables)
+        .reduce(Math::addExact)
+        .orElse(0);
   }
 }

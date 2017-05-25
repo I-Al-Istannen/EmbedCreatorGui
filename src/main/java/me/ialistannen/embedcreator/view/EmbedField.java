@@ -103,7 +103,7 @@ public class EmbedField extends GridPane {
   /**
    * @return True if the field is an inline field.
    */
-  public boolean isInline() {
+  boolean isInline() {
     return inline;
   }
 

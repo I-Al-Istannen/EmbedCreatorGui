@@ -22,6 +22,7 @@ public class TextWithUrl {
   /**
    * @return The text
    */
+  @SuppressWarnings("WeakerAccess")
   public String getText() {
     return text;
   }
@@ -29,6 +30,7 @@ public class TextWithUrl {
   /**
    * @return The URL
    */
+  @SuppressWarnings("WeakerAccess")
   public String getUrl() {
     return url;
   }

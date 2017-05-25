@@ -1,7 +1,7 @@
 package me.ialistannen.embedcreator.view;
 
 import javafx.scene.image.ImageView;
-import me.ialistannen.embedcreator.util.Webutil;
+import me.ialistannen.embedcreator.util.WebUtil;
 
 /**
  * A {@link ImageView} saving the URL of the image it displays
@@ -30,7 +30,7 @@ public class UrlImageView extends ImageView {
    * @param url The URL to the image
    */
   public void setImage(String url) {
-    Webutil.getImage(url).ifPresent(image -> {
+    WebUtil.getImage(url).ifPresent(image -> {
       setImage(image);
       this.url = url;
     });

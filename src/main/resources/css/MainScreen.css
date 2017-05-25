@@ -5,6 +5,10 @@
   -fx-background-image: url("/images/background.png");
 }
 
+.embed-color-bar {
+  /*-fx-background-radius: 10 0 0 10;*/
+}
+
 .thumbnail-image {
 }
 

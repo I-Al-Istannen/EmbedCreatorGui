@@ -47,6 +47,7 @@ public class Util {
    *
    * @return The created {@link Window}
    */
+  @SuppressWarnings("SameParameterValue")
   public static Window showWaitingAnimation(String text) {
     Stage stage = new Stage(StageStyle.TRANSPARENT);
 
