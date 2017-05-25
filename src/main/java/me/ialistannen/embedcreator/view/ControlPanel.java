@@ -17,7 +17,8 @@ import javafx.scene.layout.BorderPane;
 import me.ialistannen.embedcreator.cantbebothered.GlobalChangeListener;
 import me.ialistannen.embedcreator.controller.MainScreenController;
 import me.ialistannen.embedcreator.extraction.Generator;
-import me.ialistannen.embedcreator.extraction.GeneratorData;
+import me.ialistannen.embedcreator.extraction.ProviderManager;
+import me.ialistannen.embedcreator.extraction.ProviderManager.ProviderType;
 import me.ialistannen.embedcreator.model.CharacterLimit;
 import me.ialistannen.embedcreator.model.variables.VariableRegistry;
 
@@ -37,7 +38,8 @@ public class ControlPanel extends BorderPane {
 
 
   private MainScreenController mainScreenController;
-  private Generator generator = data -> "N/A";
+  private Generator generator = new DebugPrintingGenerator();
+  private ProviderManager providerManager;
 
   /**
    * Creates a new ControlPanel.
@@ -111,7 +113,7 @@ public class ControlPanel extends BorderPane {
   @FXML
   void onGenerate(ActionEvent event) {
     System.out.println("Generating...");
-    System.out.println(generator.generate(GeneratorData.fromMain()));
+    System.out.println(generator.generate(providerManager));
   }
 
   @FXML
@@ -126,5 +128,23 @@ public class ControlPanel extends BorderPane {
    */
   public void setMainScreenController(MainScreenController mainScreenController) {
     this.mainScreenController = mainScreenController;
+  }
+
+  /**
+   * @param providerManager The {@link ProviderManager} to use.
+   */
+  public void setProviderManager(ProviderManager providerManager) {
+    this.providerManager = providerManager;
+  }
+
+  private static class DebugPrintingGenerator implements Generator {
+
+    @Override
+    public String generate(ProviderManager data) {
+      for (ProviderType providerType : ProviderType.values()) {
+        System.out.println(providerType.name() + ": " + data.get(providerType));
+      }
+      return "N/A";
+    }
   }
 }

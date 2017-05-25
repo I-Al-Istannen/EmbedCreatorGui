@@ -3,6 +3,7 @@ package me.ialistannen.embedcreator.controller;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Supplier;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -11,7 +12,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
-import me.ialistannen.embedcreator.extraction.GeneratorData.TextWithUrl;
+import me.ialistannen.embedcreator.extraction.Provider;
+import me.ialistannen.embedcreator.extraction.ProviderManager;
+import me.ialistannen.embedcreator.extraction.ProviderManager.ProviderType;
+import me.ialistannen.embedcreator.extraction.TextWithUrl;
 import me.ialistannen.embedcreator.model.CharacterLimit;
 import me.ialistannen.embedcreator.util.ImageUtil;
 import me.ialistannen.embedcreator.view.ControlPanel;
@@ -153,39 +157,60 @@ public class MainScreenController {
     fieldContainer.addNewField("This is the field name", "And the value", inline);
   }
 
-  public String getHeaderImage() {
-    return authorAvatarImage.getUrl();
+  /**
+   * Sets the {@link ProviderManager} and adds all relevant {@link Provider}s to it.
+   *
+   * @param providerManager The {@link ProviderManager} to use.
+   */
+  public void setProviderManager(ProviderManager providerManager) {
+    controlPanel.setProviderManager(providerManager);
+
+    providerManager.addProvider(
+        ProviderType.AUTHOR_IMAGE,
+        Provider.ofSingleType(String.class, authorAvatarImage::getUrl)
+    );
+    providerManager.addProvider(
+        ProviderType.AUTHOR_TEXT,
+        Provider.ofSingleType(TextWithUrl.class, supplierFromUrlLabel(authorName))
+    );
+    providerManager.addProvider(
+        ProviderType.THUMBNAIL_IMAGE,
+        Provider.ofSingleType(String.class, thumbnailImage::getUrl)
+    );
+    providerManager.addProvider(
+        ProviderType.TITLE,
+        Provider.ofSingleType(TextWithUrl.class, supplierFromUrlLabel(title))
+    );
+    providerManager.addProvider(
+        ProviderType.DESCRIPTION,
+        Provider.ofSingleType(String.class, descriptionText::getText)
+    );
+    providerManager.addProvider(
+        ProviderType.FIELDS,
+        Provider.ofType(EmbedField.class, fieldContainer::getFields)
+    );
+    providerManager.addProvider(
+        ProviderType.IMAGE,
+        Provider.ofSingleType(String.class, image::getUrl)
+    );
+    providerManager.addProvider(
+        ProviderType.FOOTER_IMAGE,
+        Provider.ofSingleType(String.class, footerImage::getUrl)
+    );
+    providerManager.addProvider(
+        ProviderType.FOOTER_TEXT,
+        Provider.ofSingleType(String.class, footerText::getText)
+    );
   }
 
-  public TextWithUrl getAuthorName() {
-    return new TextWithUrl(authorName.getText(), authorName.getUrl());
-  }
-
-  public String getFooterImage() {
-    return footerImage.getUrl();
-  }
-
-  public String getFooterText() {
-    return footerText.getText();
-  }
-
-  public String getThumbnailImage() {
-    return thumbnailImage.getUrl();
-  }
-
-  public TextWithUrl getTitle() {
-    return new TextWithUrl(title.getText(), title.getUrl());
-  }
-
-  public String getDescription() {
-    return descriptionText.getText();
-  }
-
-  public String getImage() {
-    return image.getUrl();
-  }
-
-  public List<EmbedField> getFields() {
-    return fieldContainer.getFields();
+  /**
+   * Returns a new {@link Supplier} converting from an {@link UrlLabel} to a {@link TextWithUrl}.
+   *
+   * @param label The {@link UrlLabel} to create it for
+   * @return A {@link Supplier} converting the contents of the {@link UrlLabel} to a {@link
+   * TextWithUrl}
+   */
+  private Supplier<TextWithUrl> supplierFromUrlLabel(UrlLabel label) {
+    return () -> new TextWithUrl(label.getText(), label.getUrl());
   }
 }

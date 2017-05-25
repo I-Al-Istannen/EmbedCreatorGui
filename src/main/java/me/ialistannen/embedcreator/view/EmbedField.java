@@ -129,4 +129,13 @@ public class EmbedField extends GridPane {
     this.value.getChildren().clear();
     this.value.getChildren().add(new Text(value));
   }
+
+  @Override
+  public String toString() {
+    return "EmbedField{"
+        + "name=" + name.getText()
+        + ", value=" + value.getText()
+        + ", inline=" + isInline()
+        + '}';
+  }
 }
