@@ -18,7 +18,9 @@ public class ImageUrlInputDialog extends UrlInputDialog {
    * A new {@link ImageUrlInputDialog}.
    */
   public ImageUrlInputDialog() {
-    setHeaderText("Please input an URL for your image.");
+    setHeaderText(
+        "Please input an URL for your image.\nVariables work too, if they are picture variables."
+    );
     setTitle("Image URL");
   }
 
