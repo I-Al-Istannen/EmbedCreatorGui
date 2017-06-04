@@ -13,7 +13,9 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.text.Font;
 import me.ialistannen.embedcreator.controller.MainScreenController;
 import me.ialistannen.embedcreator.extraction.Generator;
 import me.ialistannen.embedcreator.extraction.ProviderCollection;
@@ -92,8 +94,21 @@ public class ControlPanel extends BorderPane implements Consumer<ValidationEvent
 
   @FXML
   void onGenerate(ActionEvent event) {
-    System.out.println("Generating...");
-    System.out.println(generator.generate(providerCollection));
+    String generatedCommand = generator.generate(providerCollection);
+    Alert alert = new Alert(AlertType.INFORMATION);
+    alert.setTitle("Generation finished");
+    alert.setHeaderText("Here is your generated command.\nCopy-paste it into discord.");
+
+    TextArea textArea = new TextArea(generatedCommand);
+    textArea.setFont(Font.font("Monospaced"));
+    textArea.setEditable(false);
+    textArea.selectAll();
+
+    alert.getDialogPane().setContent(textArea);
+
+    alert.show();
+
+    textArea.requestFocus();
   }
 
   @FXML
