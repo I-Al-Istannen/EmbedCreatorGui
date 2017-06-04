@@ -63,6 +63,22 @@ public class ProviderCollection {
     return casted;
   }
 
+  /**
+   * Returns the first thing a given {@link Provider} returns.
+   *
+   * @param type The {@link ProviderType} to use
+   * @param <T> The type of the return value. Instance of whatever {@link
+   * ProviderType#getResultClass()} returns
+   * @return The first element that the {@link Provider} returned or null if none
+   * @throws ClassCastException if not all elements the Provider returned are of type {@link
+   * ProviderType#getResultClass()}.
+   * @see #get(ProviderType)
+   */
+  public <T> T getSingle(ProviderType type) {
+    List<T> elements = get(type);
+    return elements.isEmpty() ? null : elements.get(0);
+  }
+
   @Override
   public String toString() {
     return "ProviderCollection{"
