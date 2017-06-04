@@ -103,8 +103,22 @@ public class EmbedField extends GridPane {
   /**
    * @return True if the field is an inline field.
    */
-  boolean isInline() {
+  public boolean isInline() {
     return inline;
+  }
+
+  /**
+   * @return The name of the {@link EmbedField}
+   */
+  public String getName() {
+    return name.getText();
+  }
+
+  /**
+   * @return The value of the {@link EmbedField}
+   */
+  public String getValue() {
+    return value.getText();
   }
 
   /**
@@ -133,8 +147,8 @@ public class EmbedField extends GridPane {
   @Override
   public String toString() {
     return "EmbedField{"
-        + "name=" + name.getText()
-        + ", value=" + value.getText()
+        + "name=" + getName()
+        + ", value=" + getValue()
         + ", inline=" + isInline()
         + '}';
   }
