@@ -209,14 +209,18 @@ public class ControlPanel extends BorderPane implements Consumer<ValidationEvent
 
                     case "AUTHOR_IMAGE": {
                         if (!data.get(providerType).isEmpty()) {
-                            res += "{AuthorIcon:" + data.get(providerType).get(0).toString() + "} ";
+                            if (!data.get(providerType).get(0).toString().isEmpty()) {
+                                res += "{AuthorIcon:" + data.get(providerType).get(0).toString() + "} ";
+                            }
                         }
                         break;
                     }
 
                     case "THUMBNAIL_IMAGE": {
                         if (!data.get(providerType).isEmpty()) {
-                            res += "{Thumbnail:" + data.get(providerType).get(0).toString() + "} ";
+                            if (!data.get(providerType).get(0).toString().isEmpty()) {
+                                res += "{Thumbnail:" + data.get(providerType).get(0).toString() + "} ";
+                            }
                         }
                         break;
                     }
@@ -241,13 +245,17 @@ public class ControlPanel extends BorderPane implements Consumer<ValidationEvent
 
                     case "IMAGE": {
                         if (!data.get(providerType).isEmpty()) {
-                            res += "{Image:" + data.get(providerType).get(0).toString() + "} ";
+                            if (!data.get(providerType).get(0).toString().isEmpty()) {
+                                res += "{Image:" + data.get(providerType).get(0).toString() + "} ";
+                            }
                         }
                         break;
                     }
                     case "FOOTER_IMAGE": {
                         if (!data.get(providerType).isEmpty()) {
-                            res += "{FooterIcon:" + data.get(providerType).get(0).toString() + "} ";
+                            if (!data.get(providerType).get(0).toString().isEmpty()) {
+                                res += "{FooterIcon:" + data.get(providerType).get(0).toString() + "} ";
+                            }
                         }
                         break;
                     }
