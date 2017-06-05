@@ -44,6 +44,7 @@ public class EmbedColorBar extends Region {
       popOver.setContentNode(vBox);
       popOver.show(this, event.getScreenX(), event.getScreenY());
 
+      popOver.detach();
       popOver.setOnHidden(hidden -> setEditCursor());
     });
 
